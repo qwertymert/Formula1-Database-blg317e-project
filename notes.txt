@@ -1,5 +1,9 @@
-Tables:
+TO DO:
+Create tables: Done
 
-drivers.csv
-driverStandings.csv
-qualifying.csv
+
+Write CRUD operations for assigned tables:
+    - Create: 
+    - Read: 
+    - Update: 
+    - Delete: 
