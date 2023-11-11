@@ -19,10 +19,10 @@ mycursor.execute("""
                     driverId int,
                     driverRef varchar(50),
                     number int,
-                    code char(3),
+                    code varchar(4),
                     forename varchar(50),
                     surname varchar(50),
-                    dob date,
+                    dob datetime,
                     nationality varchar(50),
                     url varchar(100),
                     PRIMARY KEY (driverId)
