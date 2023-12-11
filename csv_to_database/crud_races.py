@@ -4,7 +4,7 @@ import pandas as pd
 mydb = mysql.connector.connect(
     host="localhost",
     username="root",
-    password="123mert*" # Change with your root password
+    password="MyNewPass" # Change with your root password
 )
 
 mycursor = mydb.cursor()
@@ -22,7 +22,6 @@ def insert_races(record):
     insert_sql = "insert into races values (%s, %s, %s, %s, %s, %s, %s, %s)"
     mycursor.execute(insert_sql, tuple(record))
     
-
 
 for i, record in df_races.iterrows():
     insert_races(record)

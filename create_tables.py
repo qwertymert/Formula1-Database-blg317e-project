@@ -3,7 +3,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host="localhost",
     username="root",
-    password="" # Change with your root password
+    password="MyNewPass" # Change with your root password
 )
 
 mycursor = mydb.cursor()
@@ -193,12 +193,12 @@ mycursor.execute("""
                     positionOrder int,
                     points int,
                     laps int,
-                    time time,
+                    time varchar(20),
                     milliseconds int,
                     fastestLap int,
                     ranks int,
                     fastestLapTime time,
-                    fastestLapSpeed float,
+                    fastestLapSpeed decimal,
                     statusId int,
                     PRIMARY KEY (resultId),
                     FOREIGN KEY (raceId) REFERENCES races(raceId),
