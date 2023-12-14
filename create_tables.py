@@ -1,10 +1,9 @@
 import mysql.connector
+import yaml
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="MyNewPass" # Change with your root password
-)
+db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+
+mydb = mysql.connector.connect(**db_config)
 
 mycursor = mydb.cursor()
 

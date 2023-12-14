@@ -1,11 +1,10 @@
 import mysql.connector
 import pandas as pd
+import yaml
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="MyNewPass" # Change with your root password
-)
+db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+
+mydb = mysql.connector.connect(**db_config)
 
 mycursor = mydb.cursor()
 mycursor.execute("use FORMULA1")
@@ -17,12 +16,15 @@ def insert_driver_standings(record):
     insert_sql = "INSERT into driver_standings values (%s, %s, %s, %s, %s, %s, %s)"
     mycursor.execute(insert_sql, tuple(record))
 
-
-for i, record in df_driver_standings.iterrows():
-    insert_driver_standings(record)
-print("Driver_standings inserted")
-
-
+try:
+    for i, record in df_driver_standings.iterrows():
+        insert_driver_standings(record)
+    print("Driver_standings inserted")
+except mysql.connector.errors.IntegrityError as err:
+    print("Driver_standings already inserted")
+except Exception as err:
+    print(err)
+    
 mydb.commit()
 
 mycursor.close()

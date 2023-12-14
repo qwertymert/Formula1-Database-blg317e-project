@@ -1,18 +1,15 @@
 import mysql.connector
 import pandas as pd
+import yaml
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="MyNewPass" # Change with your root password
-)
+db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+
+mydb = mysql.connector.connect(**db_config)
 
 mycursor = mydb.cursor()
 mycursor.execute("use FORMULA1")
 
 df_driver = pd.read_csv('data/drivers.csv', encoding='ISO-8859-1')
-
-print(df_driver.columns)
 
 def insert_drivers(record):
     # Replace pandas NaN with SQL NULL
@@ -22,12 +19,14 @@ def insert_drivers(record):
     insert_sql = "insert into drivers values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
     mycursor.execute(insert_sql, tuple(record))
     
-
-
-for i, record in df_driver.iterrows():
-    insert_drivers(record)
-print("Drivers inserted")
-
+try:
+    for i, record in df_driver.iterrows():
+        insert_drivers(record)
+    print("Drivers inserted")
+except mysql.connector.errors.IntegrityError as err:
+    print("Drivers already inserted")
+except Exception as err:
+    print(err)
 
 mydb.commit()
 

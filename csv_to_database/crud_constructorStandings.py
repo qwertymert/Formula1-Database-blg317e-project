@@ -1,11 +1,10 @@
 import mysql.connector
 import pandas as pd
+import yaml
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    username="root",
-    password="MyNewPass" # Change with your root password
-)
+db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+
+mydb = mysql.connector.connect(**db_config)
 
 mycursor = mydb.cursor()
 mycursor.execute("use FORMULA1")
@@ -17,10 +16,15 @@ def insert_constructor_standings(record):
     insert_sql = "INSERT into constructor_standings values (%s, %s, %s, %s, %s, %s, %s)"
     mycursor.execute(insert_sql, tuple(record))
 
+try:
+    for i, record in df_constructor_standings.iterrows():
+        insert_constructor_standings(record)
+    print("Constructor standings inserted")
+except mysql.connector.errors.IntegrityError as err:
+    print("Constructor standings already inserted")
+except Exception as err:
+    print(err)
 
-for i, record in df_constructor_standings.iterrows():
-    insert_constructor_standings(record)
-print("Constructor standings inserted")
 
 
 mydb.commit()
