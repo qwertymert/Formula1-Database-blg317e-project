@@ -15,4 +15,14 @@ def read_table(table_name):
     myresult = mycursor.fetchall()
     
     return myresult, columns
+
+def get_table_names():
+    db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+    mydb = mysql.connector.connect(**db_config)
+
+    mycursor = mydb.cursor()
     
+    mycursor.execute("SHOW TABLES")
+    tables = mycursor.fetchall()
+    
+    return tables

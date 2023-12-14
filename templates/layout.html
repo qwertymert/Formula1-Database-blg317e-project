@@ -9,22 +9,21 @@
 
   <head>
     <meta charset="utf-8"/>
-    <title>My movies - {% block title %}{% endblock %}</title>  
-    <!-- <link rel="stylesheet" href="/static/mymovies.css"/> -->
-	
-	<link rel="stylesheet"
-          href="{{ url_for('static', filename='mymovies.css') }}"/>  
+    <title>BLG317E - {% block title %}{% endblock %}</title>  
+    <link rel="stylesheet"
+            href="{{ url_for('static', filename='formula1.css') }}"/>  
   </head>
   <body>
-    {% block content %}{% endblock %}   
+    {% block page_title %}{% endblock %}
     <header>
       <nav>
         <ul>
           <li><a href="{{ url_for('home_page') }}">Home</a></li>   
-          <li><a href="{{ url_for('table_page') }}">List tables</a></li>
+          <li><a href="{{ url_for('select_table') }}">List tables</a></li>
         </ul>
       </nav>
     </header> 
+    {% block content %}{% endblock %}   
     <footer>
       <small>&copy; Istanbul Technical University</small>
     </footer>
