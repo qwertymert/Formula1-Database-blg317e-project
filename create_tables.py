@@ -3,6 +3,8 @@ import yaml
 
 db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
+del db_config['database']
+
 mydb = mysql.connector.connect(**db_config)
 
 mycursor = mydb.cursor()
