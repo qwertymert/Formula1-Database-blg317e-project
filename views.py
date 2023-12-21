@@ -37,6 +37,11 @@ def filter_table():
     
     if request.method == "POST":
         
+        
+        # check if reset button was pressed
+        if "reset" in request.form:
+            return render_template("filter_table.html", table_names=names)
+        
         # getting input with name = table-name in HTML
         table_name = request.form.get("table-name")
         
@@ -47,11 +52,11 @@ def filter_table():
         column_name = request.form.get("column-name")
         
         if column_name is None:
-            return render_template("filter_table.html", title=table_name, columns=cols, table_names=names)
+            return render_template("filter_table.html", title=table_name, columns=cols, table_names=names, default_table=table_name)
         
         value = request.form.get("filter")
         if value is None:
-            return render_template("filter_table.html", title=table_name, column_name=column_name, columns=cols, table_names=names)
+            return render_template("filter_table.html", title=table_name, column_name=column_name, columns=cols, table_names=names, default_table=table_name, default_column=column_name)
         
         # value can be a string or a number, so filter with SQL accordingly
         if value.isnumeric():

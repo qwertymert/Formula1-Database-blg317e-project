@@ -11,7 +11,7 @@
     <select name="table-name" id="table-name">
         {% if table_names %}   
             {% for table_name in table_names %}
-                <option value="{{ table_name }}">{{ table_name }}</option>
+                <option {% if default_table == table_name %} selected="selected" {% endif %} value="{{ table_name }}">{{ table_name }}</option>
             {% endfor %}
         {% endif %}
     </select>
@@ -23,7 +23,7 @@
     <select name="column-name" id="column-name">
         {% if columns %}   
             {% for column in columns %}
-                <option value="{{ column }}">{{ column }}</option>
+                <option {% if default_column == column %} selected="selected" {% endif %} value="{{ column }}">{{ column }}</option>
             {% endfor %}
         {% endif %}
     </select>
@@ -36,9 +36,15 @@
     <label for="filter">Filter {{ column_name }}:</label>
     <input type="text" name="filter" id="filter">
     {% endif %}
-    <button type="submit">Submit</button>
+    <br>
+    <button type="submit" name="submit">Submit</button>
     </form>
-    <br><br>
+    <br>
+    <!-- Add reset button that resets the form -->
+    <form action="{{ url_for("filter_table")}}" method="post">
+    <button type="submit" name="reset">Reset</button>
+    </form>
+    <br>
     
     <h1 class="title">{% if title and table %} {{title}} {% endif %}</h1>
 
