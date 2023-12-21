@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block title %}Driver{% endblock %}
+
+{% block content %}
+  <h1>Driver Page</h1>
+
+  <!-- Button to show all pilots -->
+  <button id="showDriverButton" class="btn btn-primary">Show All Driver</button>
+
+  <!-- Table to display pilots -->
+  <table class="table table-bordered mt-3" id="pilotsTable">
+    <thead>
+      <tr>
+        <th>Driver ID</th>
+        <th>Driver Ref</th>
+        <th>Number</th>
+        <th>Code</th>
+        <th>Forename</th>
+        <th>Surname</th>
+        <th>Date of Birth</th>
+        <th>Nationality</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Pilot data will be inserted here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Function to handle button click and show all drivers
+    document.getElementById('showDriverButton').addEventListener('click', function () {
+      showAllDriver();
+    });
+  
+    // Function to display all drivers (assumes data is passed from the Flask route)
+    function showAllDriver() {
+      // Fetch data from the Flask route
+      fetch('/drivers', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          var tableBody = document.querySelector('#pilotsTable tbody');
+          tableBody.innerHTML = ''; // Clear existing table data
+  
+          // Iterate over data and append rows to the table
+          data.forEach(function (driver) {
+            var row = tableBody.insertRow();
+            row.insertCell(0).textContent = driver.driverId;
+            row.insertCell(1).textContent = driver.driverRef;
+            row.insertCell(2).textContent = driver.number;
+            row.insertCell(3).textContent = driver.code;
+            row.insertCell(4).textContent = driver.forename;
+            row.insertCell(5).textContent = driver.surname;
+            row.insertCell(6).textContent = driver.dob;
+            row.insertCell(7).textContent = driver.nationality;
+            row.insertCell(8).textContent = driver.url;
+          });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+  
+{% endblock %}
