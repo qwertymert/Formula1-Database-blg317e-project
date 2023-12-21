@@ -14,6 +14,9 @@ def read_table(table_name):
     mycursor.execute("SELECT * FROM " + table_name)
     myresult = mycursor.fetchall()
     
+    mycursor.close()
+    mydb.close()
+    
     return myresult, columns
 
 def get_table_names():
@@ -24,5 +27,8 @@ def get_table_names():
     
     mycursor.execute("SHOW TABLES")
     tables = mycursor.fetchall()
+    
+    mycursor.close()
+    mydb.close()
     
     return tables

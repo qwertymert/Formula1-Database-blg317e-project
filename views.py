@@ -2,7 +2,7 @@ from datetime import datetime
 
 from read_tables import read_table, get_table_names
 
-from flask import current_app, render_template, request
+from flask import render_template, request
 
 def home_page():
     today = datetime.today()
