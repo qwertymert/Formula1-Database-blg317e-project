@@ -2,7 +2,7 @@
 
 {% block title %}Formula1 table filtering{% endblock %}
 
-{% block page_title %}<h2>Select a table, column and value for filtering</h2>{% endblock %}
+{% block page_title %}<h2>Select a table to list rows</h2>{% endblock %}
 
 {% block content %}
 
@@ -18,7 +18,7 @@
     <button type="submit">Submit</button>
     <br><br>
     </form>
-    
+
     <h1 class="title">{% if title %} {{title}} {% endif %}</h1>
 
     {% if table %}    
