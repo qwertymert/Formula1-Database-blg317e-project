@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Results
+{% endblock %}
+
+{% block page_title %}
+  <div class="container mt-3">
+    <h2>Result Page</h2>
+  </div>
+{% endblock %}
+{% block content %}
+<div class=" mt-3">
+    <form action="{{ url_for("results_page") }}" method="post">
+        <button class="btn btn-primary mb-3" type="submit">Show All Results</button>
+    </form>
+    {% if table_names %}
+    <table class="table">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result_data %}
+            <tr class="season-row">
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
