@@ -50,11 +50,8 @@ class MySQLRepository:
         return [column[0] for column in columns]
 
 
-    def read_table(table_name):
-        db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
-        mydb = mysql.connector.connect(**db_config)
-
-        mycursor = mydb.cursor()
+    def read_table(self, table_name):
+        mycursor = self.connection.cursor()
         
         mycursor.execute("SHOW COLUMNS FROM " + table_name)
         columns = mycursor.fetchall()
@@ -64,34 +61,25 @@ class MySQLRepository:
         myresult = mycursor.fetchall()
         
         mycursor.close()
-        mydb.close()
         
         return myresult, columns
 
-    def read_columns(table_name):
-        db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
-        mydb = mysql.connector.connect(**db_config)
-
-        mycursor = mydb.cursor()
+    def read_columns(self, table_name):
+        mycursor = self.connection.cursor()
         
         mycursor.execute("SHOW COLUMNS FROM " + table_name)
         columns = mycursor.fetchall()
         
         mycursor.close()
-        mydb.close()
         
         return columns
 
-    def get_table_names():
-        db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
-        mydb = mysql.connector.connect(**db_config)
-
-        mycursor = mydb.cursor()
+    def get_table_names(self):
+        mycursor = self.connection.cursor()
         
         mycursor.execute("SHOW TABLES")
         tables = mycursor.fetchall()
         
         mycursor.close()
-        mydb.close()
         
         return tables
