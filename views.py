@@ -64,7 +64,7 @@ def filter_table():
         else:
             rows = filter_table_and_column(table_name, column_name, value, "string")
         
-        return render_template("filter_table.html", table=rows, title=table_name, column_name=column_name, columns=cols, table_names=names)
+        return render_template("filter_table.html", table=rows, title=table_name, column_name=column_name, columns=cols, table_names=names, default_table=table_name, default_column=column_name)
     
     
     return render_template("filter_table.html", table_names=names)
