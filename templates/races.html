@@ -10,11 +10,20 @@
         <form action="{{ url_for("races_page") }}" method="post">
             <button class="btn btn-primary mb-3" type="submit">Show All Races</button>
         </form>
-        <form action="{{ url_for("viewRace.filter_by_year") }}" method="post">
-            <label for="year_input">Filter by Year:</label>
-            <input type="text" name="year_input" id="year_input" class="form-control" placeholder="Enter Year">
-            <button class="btn btn-primary mb-3" type="submit">Filter by Year</button>
+        <form action="{{ url_for("viewRace.filter_data") }}" method="post">
+            <label for="column_input">Filter by Column:</label>
+            <select name="column_input" id="column_input" class="form-control">
+                {% for column in columns %}
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="filter_input">Filter Value:</label>
+            <input type="text" name="filter_input" id="filter_input" class="form-control" placeholder="Enter Filter Value">
+            <br>
+            <button class="btn btn-primary mb-3" type="submit">Filter Data</button>
         </form>
+        
         
         {% if table_names %}
         <table class="table">
