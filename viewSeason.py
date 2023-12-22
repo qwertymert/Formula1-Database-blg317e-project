@@ -3,7 +3,7 @@ from MySqlRepository import MySQLRepository
 
 viewSeason = Blueprint('viewSeason', __name__)
 
-viewSeason.route("/seasons", methods=["GET", "POST"])
+@viewSeason.route("/seasons", methods=["GET", "POST"])
 def seasons_page():
     repo = MySQLRepository()  
 

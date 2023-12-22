@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, current_app, request
 from MySqlRepository import MySQLRepository
 
-viewSeason = Blueprint('viewSeason', __name__)
+viewResult = Blueprint('viewResult', __name__)
 
-viewSeason.route("/seasons", methods=["GET", "POST"])
+@viewResult.route("/results", methods=["GET", "POST"])
 def results_page():
     repo = MySQLRepository()  
     if request.method == 'POST':
