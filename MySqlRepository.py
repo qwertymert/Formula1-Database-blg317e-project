@@ -30,7 +30,10 @@ class MySQLRepository:
 
     def read(self, table_name, conditions=None, column_names=None):
         if conditions:
-            query = f"SELECT * FROM {table_name} WHERE {column_names} = {conditions}"
+            if conditions.isnumeric():
+                query = f"SELECT * FROM {table_name} WHERE {column_names} = {conditions}"
+            else:    
+                query = f"SELECT * FROM {table_name} WHERE {column_names} LIKE '%{conditions}%'"
         else:
             query = f"SELECT * FROM {table_name}"
 
