@@ -10,6 +10,12 @@
         <form action="{{ url_for("races_page") }}" method="post">
             <button class="btn btn-primary mb-3" type="submit">Show All Races</button>
         </form>
+        <form action="{{ url_for("viewRace.filter_by_year") }}" method="post">
+            <label for="year_input">Filter by Year:</label>
+            <input type="text" name="year_input" id="year_input" class="form-control" placeholder="Enter Year">
+            <button class="btn btn-primary mb-3" type="submit">Filter by Year</button>
+        </form>
+        
         {% if table_names %}
         <table class="table">
             <thead>

@@ -19,3 +19,17 @@ def races_page():
         table_names = repo.get_table_names()
         table_names = [name[0] for name in table_names]
         return render_template('races.html', table_names=table_names)
+  
+@viewRace.route("/races/filter_by_year", methods=["POST"])
+def filter_by_year():
+    repo = MySqlRepository.MySQLRepository()
+
+    # Handle filtering based on the submitted form data
+    year_filter = (request.form.get('year_input'))
+
+
+    races_data = repo.read('races',year_filter, 'year')
+    columns = repo.get_columns('races')
+    table_names = repo.get_table_names()
+    table_names = [name[0] for name in table_names]
+    return render_template('races.html', races_data=races_data, columns=columns, table_names=table_names)

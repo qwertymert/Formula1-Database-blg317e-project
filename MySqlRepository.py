@@ -28,11 +28,12 @@ class MySQLRepository:
         query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
         self.execute_update(query, tuple(data.values()))
 
-    def read(self, table_name, condition=None):
-        if condition:
-            query = f"SELECT * FROM {table_name} WHERE {condition}"
+    def read(self, table_name, conditions=None, column_names=None):
+        if conditions:
+            query = f"SELECT * FROM {table_name} WHERE {column_names} = {conditions}"
         else:
             query = f"SELECT * FROM {table_name}"
+
         return self.execute_query(query)
 
     def update(self, table_name, data, condition):
@@ -83,3 +84,8 @@ class MySQLRepository:
         mycursor.close()
         
         return tables
+    
+    def  get_distinct_values(self, table_name, column):
+        query = f"SELECT DISTINCT {column} FROM {table_name}"
+        values = self.execute_query(query)
+        return [value[0] for value in values]
