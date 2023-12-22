@@ -1,18 +1,21 @@
+from flask import Blueprint, render_template, current_app, request
 from MySqlRepository import MySQLRepository
-import views
-
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
-
 
 viewDriver = Blueprint('viewDriver', __name__)
 
-@viewDriver.route('/drivers',methods=['GET', 'POST'])
+@viewDriver.route("/drivers", methods=["GET", "POST"])
 def drivers_page():
+    repo = MySQLRepository()  # Assuming current_app is available
+
     if request.method == 'POST':
-        repo = MySQLRepository()
-        table_name = "drivers"
-        rows, cols = views.select_table(table_name)
-        cols = [col[0] for col in cols]
-        return render_template("drivers.html", table=rows, title=table_name, columns=cols)
+        # If the "Show All" button is clicked, fetch all drivers
+        drivers_data = repo.read('drivers')
+        columns = repo.get_columns('drivers')
+        table_names = repo.get_table_names()
+        table_names = [name[0] for name in table_names]
+        return render_template('drivers.html', drivers_data=drivers_data, columns=columns, table_names=table_names)
     else:
-        return render_template("drivers.html")
+        # Otherwise, fetch a limited number of drivers (adjust the limit as needed)
+        table_names = repo.get_table_names()
+        table_names = [name[0] for name in table_names]
+        return render_template('drivers.html', table_names=table_names)
