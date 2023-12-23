@@ -28,7 +28,67 @@
       <br>
       <button class="btn btn-primary mb-3" type="submit">Filter Data</button>
   </form>
-    {% if table_names and bool%} 
+  <form action="{{ url_for('viewDriver.add_driver') }}" method="post">
+    <div class="row mb-2">
+      <div class="col">
+        <input type="text" class="form-control" placeholder="hamilton" disabled>
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="44" disabled>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="HAM" disabled>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Lewis" disabled>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Hamilton" disabled>
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" style="width: 130px;" placeholder="1985-07-01" disabled>
+    </div>    
+      <div class="col">
+        <input type="text" class="form-control" placeholder="British" disabled>
+      </div>
+      <div class="col">
+        <input type="url" class="form-control" placeholder="http://en.wikipedia.org/wiki/Lewis_Hamilton" disabled>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-success mb-3" disabled>Sample</button>
+    </div>    
+    </div>
+    <div class="row">
+      <div class="col">
+        <input type="text" name="driverRef" class="form-control" placeholder="Driver Reference">
+      </div>
+      <div class="col">
+        <input type="number" name="number" class="form-control" placeholder="Number">
+      </div>
+      <div class="col">
+        <input type="text" name="code" class="form-control" placeholder="Code">
+      </div>
+      <div class="col">
+        <input type="text" name="forename" class="form-control" placeholder="Forename">
+      </div>
+      <div class="col">
+        <input type="text" name="surname" class="form-control" placeholder="Surname">
+      </div>
+      <div class="col">
+        <input type="date" name="dob" class="form-control" placeholder="Date of Birth">
+      </div>
+      <div class="col">
+        <input type="text" name="nationality" class="form-control" placeholder="Nationality">
+      </div>
+      <div class="col">
+        <input type="url" name="url" class="form-control" placeholder="URL">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-success mb-3">Add</button>
+      </div>
+    </div>
+  </form>
+    {% if table_names %} 
     <table class="table">
       <thead>
         <tr>

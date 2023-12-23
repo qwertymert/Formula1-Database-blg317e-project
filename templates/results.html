@@ -27,7 +27,86 @@
         <br>
         <button class="btn btn-primary mb-3" type="submit">Filter Data</button>
     </form>
-    {% if table_names and bool%}
+    <form action="{{ url_for('viewResult.add_result') }}" method="post">
+        <div class="row g-3 align-items-center mb-3">
+
+          <div class="col">
+            <input type="number" name="raceId" class="form-control" placeholder="1">
+            <small class="form-text text-muted">Race ID</small>
+          </div>
+          <div class="col">
+            <input type="number" name="driverId" class="form-control" placeholder="20">
+            <small class="form-text text-muted">Driver ID</small>
+          </div>
+          <div class="col">
+            <input type="number" name="constructorId" class="form-control" placeholder="5">
+            <small class="form-text text-muted">Constructor ID</small>
+          </div>
+          <div class="col">
+            <input type="number" name="number" class="form-control" placeholder="44">
+            <small class="form-text text-muted">Number</small>
+          </div>
+          <div class="col">
+            <input type="number" name="grid" class="form-control" placeholder="3">
+            <small class="form-text text-muted">Grid</small>
+          </div>
+          <div class="col">
+            <input type="number" name="position" class="form-control" placeholder="1">
+            <small class="form-text text-muted">Position</small>
+          </div>
+          <div class="col">
+            <input type="text" name="positionText" class="form-control" placeholder="R/D/1">
+            <small class="form-text text-muted">Position Text</small>
+          </div>
+          <div class="col">
+            <input type="number" name="positionOrder" class="form-control" placeholder="1">
+            <small class="form-text text-muted">Position Order</small>
+          </div>
+          <div class="col">
+            <input type="number" name="points" class="form-control" placeholder="25">
+            <small class="form-text text-muted">Points</small>
+          </div>
+          <div class="col">
+            <input type="number" name="laps" class="form-control" placeholder="58">
+            <small class="form-text text-muted">Laps</small>
+          </div>
+        </div>
+          <div class="row g-3 align-items-center mb-3">
+          <div class="col">
+            <input type="time" name="time" class="form-control" placeholder="1:30.123" step =1>
+            <small class="form-text text-muted">Time</small>
+          </div>
+          <div class="col">
+            <input type="number" name="milliseconds" class="form-control" placeholder="54788">
+            <small class="form-text text-muted">Milliseconds</small>
+          </div>
+          <div class="col">
+            <input type="number" name="fastestLap" class="form-control" placeholder="53">
+            <small class="form-text text-muted">Fastest Lap</small>
+          </div>
+          <div class="col">
+            <input type="number" name="rank" class="form-control" placeholder="1">
+            <small class="form-text text-muted">Rank</small>
+          </div>
+          <div class="col">
+            <input type="time" name="fastestLapTime" class="form-control" placeholder="1:21.789" step=1>
+            <small class="form-text text-muted">Fastest Lap Time</small>
+          </div>
+          <div class="col">
+            <input type="number" step="0.0001" name="fastestLapSpeed" class="form-control" placeholder="230.45">
+            <small class="form-text text-muted">Fastest Lap Speed</small>
+          </div>
+          <div class="col">
+            <input type="number" name="statusId" class="form-control" placeholder="1">
+            <small class="form-text text-muted">Status ID</small>
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-success" style="width: 70px;">Add</button>
+          </div>
+        </div>
+      </form>
+      
+    {% if table_names %}
     <table class="table">
         <thead>
             <tr>

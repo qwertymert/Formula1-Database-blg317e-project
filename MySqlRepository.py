@@ -6,6 +6,18 @@ class MySQLRepository:
         self.db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
         self.connection = mysql.connector.connect(**self.db_config)
 
+    def check_duplicate(self, table, data):
+        with self.connection.cursor() as cursor:
+            where_clause = ' AND '.join([f"{key} = %s" for key in data])
+            values = tuple(data.values())
+
+            query = f"SELECT * FROM {table} WHERE {where_clause}"
+            cursor.execute(query, values)
+            result = cursor.fetchone()
+
+            return bool(result)
+
+
     def execute_query(self, query, params=None):
         with self.connection.cursor() as cursor:
             if params:

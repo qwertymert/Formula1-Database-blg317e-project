@@ -23,9 +23,44 @@
             <br>
             <button class="btn btn-primary mb-3" type="submit">Filter Data</button>
         </form>
+        <form action="{{ url_for('viewRace.add_race') }}" method="post" onsubmit="return validateYearAndDate()">
+            <div class="row g-3 align-items-center mb-3">
+              <div class="col">
+                <input type="number" name="year" id="yearInput" class="form-control" placeholder="2021">
+                <small class="form-text text-muted">Year</small>
+              </div>
+              <div class="col">
+                <input type="number" name="round" class="form-control" placeholder="5">
+                <small class="form-text text-muted">Round</small>
+              </div>
+              <div class="col">
+                <input type="number" name="circuitId" class="form-control" placeholder="7">
+                <small class="form-text text-muted">Circuit ID</small>
+              </div>
+              <div class="col">
+                <input type="text" name="name" class="form-control" placeholder="Monaco Grand Prix">
+                <small class="form-text text-muted">Name</small>
+              </div>
+              <div class="col">
+                <input type="date" name="date" id = "dateInput" class="form-control">
+                <small class="form-text text-muted">Date</small>
+              </div>
+              <div class="col">
+                <input type="time" name="time" class="form-control" step="1">
+                <small class="form-text text-muted">Time</small>
+              </div>
+              <div class="col">
+                <input type="url" name="url" class="form-control" placeholder="http://www.example.com">
+                <small class="form-text text-muted">URL</small>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-success">Add Race</button>
+              </div>
+            </div>
+          </form>        
         
         
-        {% if table_names and bool%}
+        {% if table_names %}
         <table class="table">
             <thead>
                 <tr>
@@ -45,5 +80,26 @@
             </tbody>
         </table>
         {% endif %}
+        <script>
+          window.onload = function() {
+              var duplicateExists = "{{ duplicate_exists }}";
+              if (duplicateExists === "True") {
+                  alert("Duplicate entries are not permitted.");
+              }
+          };
+      </script>
+        <script>
+          function validateYearAndDate() {
+              var yearInput = document.getElementById('yearInput').value;
+              var dateInput = new Date(document.getElementById('dateInput').value);
+              var dateYear = dateInput.getFullYear();
+      
+              if (yearInput != dateYear) {
+                  alert("Year and Date do not match!");
+                  return false; 
+              }
+              return true;
+          }
+          </script>
     </div>
 {% endblock %}

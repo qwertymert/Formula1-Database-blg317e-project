@@ -6,10 +6,25 @@
     </div>
 {% endblock %}
 {% block content %}
-    <div class="container mt-3">
-        <form action="{{ url_for("seasons_page") }}" method="post">
-            <button class="btn btn-primary mb-3" type="submit">Show All Seasons</button>
-        </form>
+  <div class="container mt-3">
+    <form action="{{ url_for('viewSeason.seasons_page') }}" method="post">
+        <button class="btn btn-primary mb-3" type="submit">Show All Seasons</button>
+    </form>
+    <form action="{{ url_for('viewSeason.add_season') }}" method="post">
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col">
+          <input type="number" name="year" class="form-control" placeholder="2023" aria-label="Year">
+          <label for="year" class="form-label">Year</label>
+        </div>
+        <div class="col">
+          <input type="url" name="url" class="form-control" placeholder="http://example.com" aria-label="URL">
+          <label for="url" class="form-label">URL</label>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-success">Add</button>
+        </div>
+      </div>
+    </form>
         {% if table_names %}
         <table class="table">
             <thead>
