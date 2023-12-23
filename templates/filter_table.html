@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}Formula1 table selection{% endblock %}
+
+{% block page_title %}<h2>Select a table, column and value for filtering</h2>{% endblock %}
+
+{% block content %}
+
+    <form action="{{ url_for("filter_table")}}" method="post">
+    <label for="select-table">Select a table:</label>
+    <select name="table-name" id="table-name">
+        {% if table_names %}   
+            {% for table_name in table_names %}
+                <option {% if default_table == table_name %} selected="selected" {% endif %} value="{{ table_name }}">{{ table_name }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+    <br>
+
+    {% if title %}
+    <form action="{{ url_for("filter_table")}}" method="post">
+    <label for="filter-column">Select a column:</label>
+    <select name="column-name" id="column-name">
+        {% if columns %}   
+            {% for column in columns %}
+                <option {% if default_column == column %} selected="selected" {% endif %} value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+    {% endif %}
+    <br>
+
+    <!-- Create a filter for selected table and column -->
+    {% if title and column_name %}
+    <form action="{{ url_for("filter_table")}}" method="post">
+    <label for="filter">Filter {{ column_name }}:</label>
+    <input type="text" name="filter" id="filter">
+    {% endif %}
+    <br>
+    <button type="submit" name="submit">Submit</button>
+    </form>
+    <br>
+    <!-- Add reset button that resets the form -->
+    <form action="{{ url_for("filter_table")}}" method="post">
+    <button type="submit" name="reset">Reset</button>
+    </form>
+    <br>
+    
+    <h1 class="title">{% if title and table %} {{title}} {% endif %}</h1>
+
+    {% if table %}    
+    <table class="table is-striped is-fullwidth">
+      <tr>
+        {% if columns %}
+          {% for col in columns %}
+            <td>
+              {{ col }}
+            </td>
+          {% endfor %}
+        {% endif %}
+      </tr>
+      
+      {% for row in table %}
+      <tr>
+          {% for val in row %}
+            <td>
+              {{ val }}
+            </td>
+          {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}

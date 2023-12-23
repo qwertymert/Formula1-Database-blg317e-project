@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Formula1 table selection{% endblock %}
+{% block title %}Formula1 table filtering{% endblock %}
 
 {% block page_title %}<h2>Select a table to list rows</h2>{% endblock %}
 
@@ -17,7 +17,8 @@
     </select>
     <button type="submit">Submit</button>
     <br><br>
-    
+    </form>
+
     <h1 class="title">{% if title %} {{title}} {% endif %}</h1>
 
     {% if table %}    

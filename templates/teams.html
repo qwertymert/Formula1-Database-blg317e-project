@@ -1,0 +1,47 @@
+{% extends "layout.html"%}
+{% block title %}Teams{% endblock %}
+{% block page_title %}
+    <div class="container mt-3">
+    <h2>Teams Page</h2>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container mt-3">
+        <form action="{{ url_for("teams_page") }}" method="post">
+            <button class="btn btn-primary mb-3" type="submit">Show All Teams</button>
+        </form>
+        <form action="{{ url_for("viewTeam.filter_data") }}" method="post">
+            <label for="column_input">Filter by Column:</label>
+            <select name="column_input" id="column_input" class="form-control">
+                {% for column in columns %}
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="filter_input">Filter Value:</label>
+            <input type="text" name="filter_input" id="filter_input" class="form-control" placeholder="Enter Filter Value">
+            <br>
+            <button class="btn btn-primary mb-3" type="submit">Filter Data</button>
+        </form>
+        {% if table_names and bool %}
+        <table class="table">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in teams_data %}
+                <tr class="season-row">
+                    {% for value in row %}
+                    <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+{% endblock %}
