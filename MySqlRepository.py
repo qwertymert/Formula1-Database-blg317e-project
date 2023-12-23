@@ -54,8 +54,9 @@ class MySQLRepository:
 
 
     def delete(self, table_name, condition):
-        query = f"DELETE FROM {table_name} WHERE {condition}"
-        self.execute_update(query)
+        condition_string = " AND ".join([f"{key} = %s" for key in condition.keys()])
+        query = f"DELETE FROM {table_name} WHERE {condition_string}"
+        self.execute_update(query, tuple(condition.values()))
 
     def get_columns(self, table_name):
         query = f"SHOW COLUMNS FROM {table_name}"
