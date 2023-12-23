@@ -9,13 +9,17 @@ def teams_page():
 
     if request.method == 'POST':
         # If the "Show All" button is clicked, fetch all drivers
-        teams_data = repo.read('constructors')
-        columns = repo.get_columns('constructors')
-        table_names = repo.get_table_names()
-        table_names = [name[0] for name in table_names]
-        return render_template('teams.html', teams_data=teams_data, columns=columns, table_names=table_names)
-    else:
-        # Otherwise, fetch a limited number of drivers (adjust the limit as needed)
-        table_names = repo.get_table_names()
-        table_names = [name[0] for name in table_names]
-        return render_template('teams.html', table_names=table_names)
+        form_data = request.form.to_dict()
+        print(form_data)
+        constructor_id = form_data.pop('constructorId', None)
+
+        if constructor_id is not None:
+            # Construct the condition for the update
+            condition = {"constructorId": constructor_id}
+            repo.update('constructors', form_data, condition)
+        
+    teams_data = repo.read('constructors')
+    columns = repo.get_columns('constructors')
+    table_names = repo.get_table_names()
+    table_names = [name[0] for name in table_names]
+    return render_template('teams.html', teams_data=teams_data, columns=columns, table_names=table_names)

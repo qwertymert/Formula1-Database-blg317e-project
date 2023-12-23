@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Edit Row{% endblock %}
+{% block page_title %}
+    <div class="container mt-3">
+        <h2>Edit Row</h2>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container mt-3">
+        <form action="{{ url_for('MySqlRepository.update', table_name=table_name, row_id=row.id) }}" method="post">
+            {% for column, value in row.items() %}
+                <label for="{{ column }}">{{ column.capitalize() }}:</label>
+                <input type="text" id="{{ column }}" name="{{ column }}" value="{{ value }}" required>
+                <br>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}

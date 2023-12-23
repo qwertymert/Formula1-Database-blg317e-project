@@ -38,11 +38,20 @@ class MySQLRepository:
             query = f"SELECT * FROM {table_name}"
 
         return self.execute_query(query)
+    
 
     def update(self, table_name, data, condition):
         set_clause = ', '.join([f"{key}=%s" for key in data.keys()])
-        query = f"UPDATE {table_name} SET {set_clause} WHERE {condition}"
-        self.execute_update(query, tuple(data.values()))
+        
+        # Construct the WHERE clause based on the condition dictionary
+        where_clause = ' AND '.join([f"{key}=%s" for key in condition.keys()])
+        
+        # Combine SET and WHERE clauses to form the complete UPDATE query
+        query = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
+        
+        # Execute the UPDATE query with data values and condition values
+        self.execute_update(query, tuple(data.values()) + tuple(condition.values()))
+
 
     def delete(self, table_name, condition):
         query = f"DELETE FROM {table_name} WHERE {condition}"
@@ -53,6 +62,9 @@ class MySQLRepository:
         columns = self.execute_query(query)
         return [column[0] for column in columns]
 
+    def get_columns_circuit(self):
+        columns = ["name", "location", "country", "url"]
+        return columns
 
     def read_table(self, table_name):
         mycursor = self.connection.cursor()

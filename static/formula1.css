@@ -4,6 +4,19 @@ h1 {
 
 body {
     background-color: #c3e9e9;
+    
+}
+
+.content {
+    .container {
+        margin-left: 0px;
+    }    
+    .table td {
+        padding: 0.3rem;
+    }
+    .modal.show .modal-dialog {
+        max-width: 1200px;
+    }
 }
 
 footer {
