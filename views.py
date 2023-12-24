@@ -30,7 +30,6 @@ def login_page():
         if connection:
             app.config["SUCCESSFUL_LOGIN"] = True
             flash('You were successfully logged in')
-            
             return render_template("home.html")
         else:
             flash('Incorrect MYSQL username or password. Please try again.')
