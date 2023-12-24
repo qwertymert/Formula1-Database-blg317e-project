@@ -49,3 +49,19 @@ def add_result():
     table_names = repo.get_table_names()
     table_names = [name[0] for name in table_names]
     return render_template('results.html', result_data=result_data, columns=columns, table_names=table_names,bool=False)
+
+@viewResult.route("/results/update_result", methods=["POST"])
+def update_result():
+    repo = MySQLRepository()
+
+    # Getting all new data for all columns
+    columns = repo.get_columns('results')
+    data_to_update = {column: request.form.get(column) for column in columns}
+
+    # Adding the new data to the teams table using repo method create
+    repo.update('results', data_to_update)
+    result_data = repo.read('results')
+    columns = repo.get_columns('results')
+    table_names = repo.get_table_names()
+    table_names = [name[0] for name in table_names]
+    return render_template('results.html', result_data=result_data, columns=columns, table_names=table_names,bool=False)

@@ -108,23 +108,81 @@
       
     {% if table_names and bool%}
     <table class="table">
-        <thead>
-            <tr>
-                {% for column in columns %}
-                <th>{{ column }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in result_data %}
-            <tr class="season-row">
-                {% for value in row %}
-                <td>{{ value }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+      <thead>
+          <tr>
+              {% for column in columns %}
+              <th>{{ column }}</th>
+              {% endfor %}
+          </tr>
+      </thead>
+      <tbody>
+          {% for row in result_data %}
+          <tr class="season-row">
+              {% for value in row %}
+              <td>{{ value }}</td>
+              {% endfor %}
+              <td>
+                <button class="btn btn-primary edit-btn mb-3">Edit</button>
+                <button class="btn btn-danger delete-btn" data-id="{{row[0]}}">Delete</button>
+              </td>
+          </tr>
+          {% endfor %}
+          
+      </tbody>
+  </table>
     {% endif %}
+    <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Driver</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Edit Form -->
+          <form id="editForm" action="{{ url_for('viewResult.update_result') }}" method="post">
+            <!-- Form fields -->
+            {% for column in columns %}
+              <div class="form-group">
+                <label for="{{ column }}">{{ column }}</label>
+                <input type="text" class="form-control" name="{{ column }}" id="{{ column }}" required>
+              </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<!-- JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Edit button click event
+    var editButtons = document.querySelectorAll(".edit-btn");
+    editButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        // Get the selected row's data
+        var selectedRow = button.closest("tr");
+        var rowData = Array.from(selectedRow.children).map(function (cell) {
+          return cell.textContent.trim();
+        });
+
+        // Populate the form fields with row data
+        var form = document.getElementById("editForm");
+        var formFields = form.querySelectorAll("input");
+
+        formFields.forEach(function (field, index) {
+          field.value = rowData[index];
+        });
+
+        // Show the modal
+        $("#editModal").modal("show");
+      });
+    });
+  });
+</script>
 {% endblock %}

@@ -53,9 +53,17 @@ class MySQLRepository:
 
     def update(self, table_name, data, condition):
         set_clause = ', '.join([f"{key}=%s" for key in data.keys()])
-        query = f"UPDATE {table_name} SET {set_clause} WHERE {condition}"
-        self.execute_update(query, tuple(data.values()))
+        
+        # Construct the WHERE clause based on the condition dictionary
+        where_clause = ' AND '.join([f"{key}=%s" for key in condition.keys()])
+        
+        # Combine SET and WHERE clauses to form the complete UPDATE query
+        query = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
+        
+        # Execute the UPDATE query with data values and condition values
+        self.execute_update(query, tuple(data.values()) + tuple(condition.values()))
 
+        
     def delete(self, table_name, condition):
         query = f"DELETE FROM {table_name} WHERE {condition}"
         self.execute_update(query)

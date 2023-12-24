@@ -50,3 +50,22 @@ def add_team():
     table_names = repo.get_table_names()
     table_names = [name[0] for name in table_names]
     return render_template('teams.html', teams_data=teams_data, columns=columns, table_names=table_names,bool=False)
+
+@viewTeam.route("/teams/update_team", methods=["POST"])
+def update_team():
+    repo = MySQLRepository()
+
+    # Getting all new data for all columns
+    columns = repo.get_columns('constructors')
+    data_to_update = {column: request.form.get(column) for column in columns}
+
+    # Getting the team ID from the form data
+    team_id = request.form.get('constructorId')
+
+    # Updating the team table using repo method update
+    repo.update('constructors', data_to_update, team_id)
+    teams_data = repo.read('constructors')
+    columns = repo.get_columns('constructors')
+    table_names = repo.get_table_names()
+    table_names = [name[0] for name in table_names]
+    return render_template('teams.html', teams_data=teams_data, columns=columns, table_names=table_names,bool=False)
