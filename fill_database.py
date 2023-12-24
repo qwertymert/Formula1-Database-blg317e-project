@@ -28,6 +28,6 @@ os.system(f"python{args.python_version} create_tables.py")
 # Fills tables with data if they are empty
 for table in tables:
     print("Inserting table " + table + "...")
-    os.system(f"python{args.python_version} {scripts_path}/crud_{table}.py")
+    os.system(f"python{args.python_version} {scripts_path}/insert_{table}.py")
     
 os.remove('db.yaml')

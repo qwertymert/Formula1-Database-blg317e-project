@@ -1,15 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-import views
-import viewDriver
-import viewSeason
-import viewResult
-import viewRace
-import viewTeam
-import viewCircuit
-import mysql.connector
-import os
+from flask import Flask
+from views import views, viewDriver, viewSeason, viewResult, viewRace, viewTeam, viewCircuit
 import yaml
-
+import os
 
 def create_app():
     app = Flask(__name__)

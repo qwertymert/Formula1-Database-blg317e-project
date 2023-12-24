@@ -1,9 +1,0 @@
-TO DO:
-Create tables: Done
-
-
-Write CRUD operations for assigned tables:
-    - Create: 
-    - Read: 
-    - Update: 
-    - Delete: 
