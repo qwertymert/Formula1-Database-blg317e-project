@@ -2,9 +2,11 @@ This is a Database Management System project for BLG317E Course.
 
 - First start mysql server on localhost as root
 
-- Configure "db.yaml" file with user credentials
+- To create database, tables and fill tables with data from csv files run one of following commands
 
-- To create database, tables and fill tables with data from csv files, run "python fill_database.py"
+    "python fill_database.py --username my_username --password my_password"
+
+    "python3 fill_database.py --username my_username --password my_password --python_version 3"
 
 - After creating database, run web server with "python app.py" and go to browser from url.
 

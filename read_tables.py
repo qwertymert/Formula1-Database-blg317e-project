@@ -46,3 +46,17 @@ def get_table_names():
     mydb.close()
     
     return tables
+
+def check_connection():
+    try:
+        db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+        mydb = mysql.connector.connect(**db_config)
+        mycursor = mydb.cursor()
+        mycursor.execute("SHOW TABLES")
+        mycursor.fetchall()
+        _ = mycursor.close()
+        mydb.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False

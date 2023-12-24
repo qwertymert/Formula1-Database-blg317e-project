@@ -1,6 +1,7 @@
 import mysql.connector
 import pandas as pd
 import yaml
+from math import ceil
 
 db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
@@ -16,9 +17,12 @@ def insert_constructor_results(record):
     insert_sql = "insert into constructor_results values (%s, %s, %s, %s, %s)"
     mycursor.execute(insert_sql, tuple(record))
 
+length = len(df_constructor_results)
 try:
     for i, record in df_constructor_results.iterrows():
         insert_constructor_results(record)
+        if i % (length // 5) == 0:
+            print(str(ceil(i / length * 100)) + "%", "loaded")
     print("Constructor Results inserted")
 except mysql.connector.errors.IntegrityError as err:
     print("Constructor Results already inserted")

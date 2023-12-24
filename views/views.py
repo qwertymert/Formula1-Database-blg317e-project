@@ -1,15 +1,49 @@
 from datetime import datetime
 
-from read_tables import read_table, get_table_names, read_columns
+from read_tables import read_table, get_table_names, read_columns, check_connection
 
 from filter_tables import filter_table_and_column
 
-from flask import render_template, request
+from flask import render_template, request, flash, redirect, url_for
+from flask import current_app as app
+import yaml
 
+# view function for login page where after inputting mysql username and password, the user is redirected to the home page
+def login_page():
+    if request.method == "POST" and not app.config["SUCCESSFUL_LOGIN"]:
+        # getting input with name = username in HTML
+        username = request.form.get("username")
+        # getting input with name = password in HTML
+        password = request.form.get("password")
+    
+        db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+        db_config['user'] = username
+        db_config['password'] = password
+        yaml.dump(db_config, open('db.yaml', "w"))
+        connection = check_connection()
+        
+        if not connection:
+            db_config['user'] = "root"
+            db_config['password'] = ""
+            yaml.dump(db_config, open('db.yaml', "w"))
+                
+        if connection:
+            app.config["SUCCESSFUL_LOGIN"] = True
+            print('You were successfully logged in')
+            return render_template("home.html")
+        else:
+            print('Incorrect MYSQL username or password. Please try again.')
+            return render_template("login.html")
+    
+    return render_template("login.html")
+    
 def home_page():
-    today = datetime.today()
-    day_name = today.strftime("%A")
-    return render_template("home.html", day=day_name)
+    if not app.config["SUCCESSFUL_LOGIN"]:
+        return redirect(url_for('login_page'))
+    else:
+        today = datetime.today()
+        day_name = today.strftime("%A")
+        return render_template("home.html", day=day_name)
 
 def select_table():
     names = get_table_names()
@@ -24,12 +58,6 @@ def select_table():
         return render_template("select_table.html", table=rows, title=table_name, columns=cols, table_names=names)
     
     return render_template("select_table.html", table_names=names)
-
-# def table_page():
-#     table_name = "drivers"
-#     rows, cols = read_table(table_name)
-#     cols = [col[0] for col in cols]
-#     return render_template("tables.html", table=rows, title=table_name, columns=cols)
 
 def filter_table():
     names = get_table_names()

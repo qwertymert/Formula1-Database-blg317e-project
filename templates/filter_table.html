@@ -5,7 +5,6 @@
 {% block page_title %}<h2>Select a table, column and value for filtering</h2>{% endblock %}
 
 {% block content %}
-
     <form action="{{ url_for("filter_table")}}" method="post">
     <label for="select-table">Select a table:</label>
     <select name="table-name" id="table-name">
