@@ -1,6 +1,7 @@
 import mysql.connector
 import pandas as pd
 import yaml
+from math import ceil
 
 db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
@@ -19,9 +20,12 @@ def insert_status(record):
     insert_sql = "insert into status values (%s, %s)"
     mycursor.execute(insert_sql, tuple(record))
 
+length = len(df_status)
 try:
     for i, record in df_status.iterrows():
         insert_status(record)
+        if i % (length // 5) == 0:
+            print(str(ceil(i / length * 100)) + "%", "loaded")
     print("Races inserted")
 except mysql.connector.errors.IntegrityError as err:
     print("Races already inserted")

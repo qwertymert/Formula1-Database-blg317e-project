@@ -1,6 +1,7 @@
 import mysql.connector
 import pandas as pd
 import yaml
+from math import ceil
 
 db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
@@ -17,9 +18,12 @@ def insert_seasons(record):
     insert_sql = "insert into seasons values (%s, %s)"
     mycursor.execute(insert_sql, tuple(record))
 
+length = len(df_seasons)
 try:
     for i, record in df_seasons.iterrows():
         insert_seasons(record)
+        if i % (length // 5) == 0:
+            print(str(ceil(i / length * 100)) + "%", "loaded")
     print("Seasons inserted")
 except mysql.connector.errors.IntegrityError as err:
     print("Seasons already inserted")

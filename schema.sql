@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS races (
     time time,
     url varchar(100),
     PRIMARY KEY (raceId),
-    FOREIGN KEY (circuitId) REFERENCES circuits(circuitId) ON DELETE SET NULL
+    FOREIGN KEY (circuitId) REFERENCES circuits(circuitId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS driver_standings (
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS driver_standings (
     positionText char(3),
     wins int,
     PRIMARY KEY (driverStandingsId),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS pit_stops (
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS pit_stops (
     duration time,
     milliseconds int,
     PRIMARY KEY (raceId, driverId, stop),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS lap_times (
@@ -75,8 +75,8 @@ CREATE TABLE IF NOT EXISTS lap_times (
     time time,
     milliseconds int,
     PRIMARY KEY (raceId, driverId, lap),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS constructors (
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS constructor_standings (
     positionText char(3),
     wins int,
     PRIMARY KEY (constructorStandingsId),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS constructor_results (
@@ -108,8 +108,8 @@ CREATE TABLE IF NOT EXISTS constructor_results (
     points int,
     status varchar(50),
     PRIMARY KEY (constructorResultsId),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS qualifying (
@@ -123,9 +123,9 @@ CREATE TABLE IF NOT EXISTS qualifying (
     q2 time,
     q3 time,
     PRIMARY KEY (qualifyId),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE SET NULL,
-    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS results (
@@ -148,9 +148,9 @@ CREATE TABLE IF NOT EXISTS results (
     fastestLapSpeed decimal,
     statusId int,
     PRIMARY KEY (resultId),
-    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE SET NULL,
-    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE SET NULL,
-    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE SET NULL
+    FOREIGN KEY (raceId) REFERENCES races(raceId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (driverId) REFERENCES drivers(driverId) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (constructorId) REFERENCES constructors(constructorId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS status (
