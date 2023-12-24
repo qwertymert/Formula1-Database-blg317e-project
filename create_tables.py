@@ -68,7 +68,7 @@ mycursor.execute("""
 # Create driver_standings table if not exists for columns: [driverStandingsId,raceId,driverId,points,position,positionText,wins]
 mycursor.execute("""
                 CREATE TABLE IF NOT EXISTS driver_standings (
-                    driverStandingsId int,
+                    driverStandingsId int AUTO_INCREMENT,
                     raceId int,
                     driverId int,
                     points int,
@@ -131,7 +131,7 @@ mycursor.execute("""
 # Create constructor_standings table if not exists for columns: [constructorStandingsId,raceId,constructorId,points,position,positionText,wins]
 mycursor.execute("""
                  CREATE TABLE IF NOT EXISTS constructor_standings (
-                    constructorStandingsId int,
+                    constructorStandingsId int AUTO_INCREMENT,
                     raceId int,
                     constructorId int,
                     points int,
@@ -148,7 +148,7 @@ mycursor.execute("""
 # Create constructor_results table if not exists for columns: [constructorResultsId,raceId,constructorId,points,status]
 mycursor.execute("""
                  CREATE TABLE IF NOT EXISTS constructor_results (
-                    constructorResultsId int,
+                    constructorResultsId int AUTO_INCREMENT,
                     raceId int,
                     constructorId int,
                     points int,
@@ -163,7 +163,7 @@ mycursor.execute("""
 # Create qualifying table if not exists for columns: [qualifyId,raceId,driverId,constructorId,number,position,q1,q2,q3]
 mycursor.execute("""
                 CREATE TABLE IF NOT EXISTS qualifying (
-                    qualifyId int,
+                    qualifyId int AUTO_INCREMENT,
                     raceId int,
                     driverId int,
                     constructorId int,
@@ -212,7 +212,7 @@ mycursor.execute("""
 # Create status table if not exists for columns: [statusId,status]
 mycursor.execute("""
                  CREATE TABLE IF NOT EXISTS status (
-                    statusId int,
+                    statusId int AUTO_INCREMENT,
                     status varchar(50),
                     PRIMARY KEY (statusId)
                 );
