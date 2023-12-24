@@ -17,7 +17,7 @@ mycursor.execute("use FORMULA1")
 # Create drivers table if not exists for columns: [driverId,driverRef,number,code,forename,surname,dob,nationality,url]
 mycursor.execute("""
                 CREATE TABLE IF NOT EXISTS drivers (
-                    driverId int,
+                    driverId int AUTO_INCREMENT,
                     driverRef varchar(50),
                     number int,
                     code varchar(4),
@@ -34,7 +34,7 @@ mycursor.execute("""
 # Create circuits table if not exists for columns: [circuitId,circuitRef,name,location,country,lat,lng,alt,url]
 mycursor.execute("""
                 CREATE TABLE IF NOT EXISTS circuits (
-                    circuitId int,
+                    circuitId int AUTO_INCREMENT,
                     circuitRef varchar(50),
                     name varchar(100),
                     location varchar(100),
@@ -51,7 +51,7 @@ mycursor.execute("""
 # Create races table if not exists for columns: [raceId,year,round,circuitId,name,date,time,url]
 mycursor.execute("""
                  CREATE TABLE IF NOT EXISTS races (
-                    raceId int,
+                    raceId int AUTO_INCREMENT,
                     year int,
                     round int,
                     circuitId int,
@@ -118,7 +118,7 @@ mycursor.execute("""
 # Create constructors table if not exists for columns: [constructorId,constructorRef,name,nationality,url]
 mycursor.execute("""
                  CREATE TABLE IF NOT EXISTS constructors (
-                    constructorId int,
+                    constructorId int AUTO_INCREMENT,
                     constructorRef varchar(50),
                     name varchar(100),
                     nationality varchar(50),
@@ -183,7 +183,7 @@ mycursor.execute("""
 # Create results table if not exists for columns: [resultId,raceId,driverId,constructorId,number,grid,position,positionText,positionOrder,points,laps,time,milliseconds,fastestLap,rank,fastestLapTime,fastestLapSpeed,statusId]
 mycursor.execute("""
                  CREATE TABLE IF NOT EXISTS results (
-                    resultId int,
+                    resultId int AUTO_INCREMENT,
                     raceId int,
                     driverId int,
                     constructorId int,
