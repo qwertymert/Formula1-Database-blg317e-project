@@ -7,6 +7,8 @@ import yaml
 parser = argparse.ArgumentParser()
 parser.add_argument("--username", help="MySQL username", default="root")
 parser.add_argument("--password", help="MySQL password")
+parser.add_argument("--python_version", help="Python version", default="")
+
 args = parser.parse_args()
 
 yaml_config = {"user": args.username, "password": args.password,
@@ -21,11 +23,11 @@ tables = ["drivers", "circuits", "races", "driverStandings",
           "constructorResults", "qualifying", "results", "status", "seasons"]
 
 # Creates database and tables if they don't exist
-os.system(f"python create_tables.py")
+os.system(f"python{args.python_version} create_tables.py")
 
 # Fills tables with data if they are empty
 for table in tables:
     print("Inserting table " + table + "...")
-    os.system(f"python {scripts_path}/crud_{table}.py")
+    os.system(f"python{args.python_version} {scripts_path}/crud_{table}.py")
     
 os.remove('db.yaml')

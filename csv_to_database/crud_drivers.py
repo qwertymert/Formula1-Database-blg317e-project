@@ -2,6 +2,8 @@ import mysql.connector
 import pandas as pd
 import yaml
 from math import ceil
+import warnings
+warnings.filterwarnings("ignore")
 
 db_config = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
