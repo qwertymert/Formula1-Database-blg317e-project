@@ -27,23 +27,29 @@
     </form>
         {% if table_names %}
         <table class="table">
-            <thead>
-                <tr>
-                    {% for column in columns %}
+          <thead>
+            <tr>
+                {% for column in columns %}
                     <th>{{ column }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in seasons_data %}
-                <tr class="season-row">
-                    {% for value in row %}
-                    <td>{{ value }}</td>
-                    {% endfor %}
-                </tr>
                 {% endfor %}
-            </tbody>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in seasons_data %}
+            <tr class="season-row">
+                {% for value in row %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+                <td>
+                    <a href="{{ url_for('viewSeason.delete_season', year=row[0]) }}" class="btn btn-danger delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
         </table>
         {% endif %}
     </div>
+    
+
 {% endblock %}
