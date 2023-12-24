@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
     <div class="container mt-3">
-        <form action="{{ url_for("circuits_page") }}" method="post">
+        <form action="{{ url_for("viewCircuit.circuits_page") }}" method="post">
             <button class="btn btn-primary mb-3" type="submit">Show All Circuits</button>
         </form>
         <form action="{{ url_for("viewCircuit.filter_data") }}" method="post">
@@ -23,7 +23,7 @@
           <br>
           <button class="btn btn-primary mb-3" type="submit">Filter Data</button>
       </form>
-        <form action="{{ url_for('viewCircuit.add_circuits') }}" method="post">
+      <form action="{{ url_for('viewCircuit.add_circuits') }}" method="post">
             <div class="row g-3 align-items-center mb-3">
               <div class="col">
                 <input type="text" name="circuitRef" class="form-control" placeholder="albert_park">
@@ -62,7 +62,7 @@
                 <button type="submit" class="btn btn-success">Add Circuit</button>
               </div>
             </div>
-          </form>          
+      </form>         
         {% if table_names and bool%}
         <table class="table">
             <thead>
@@ -70,6 +70,7 @@
                     {% for column in columns %}
                     <th>{{ column }}</th>
                     {% endfor %}
+                    
                 </tr>
             </thead>
             <tbody>
@@ -78,10 +79,70 @@
                     {% for value in row %}
                     <td>{{ value }}</td>
                     {% endfor %}
+                    <td>
+                        <button class="btn btn-primary edit-btn mb-3">Edit</button>
+                        <a href="{{ url_for('viewCircuit.delete_circuit', circuit_id=row[0]) }}" class="btn btn-danger delete-btn">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% endif %}
     </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Circuit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Edit Form -->
+                    <form id="editForm" action="{{ url_for('viewCircuit.update_circuits') }}" method="post">
+                        <!-- Form fields -->
+                        {% for column in columns %}
+                            <div class="form-group">
+                                <label for="{{ column }}">{{ column }}</label>
+                                <input type="text" class="form-control" name="{{ column }}" id="{{ column }}" required>
+                            </div>
+                        {% endfor %}
+                        <!-- <input type="hidden" name="id" id="editId"> -->
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Edit button click event
+            var editButtons = document.querySelectorAll(".edit-btn");
+            editButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    // Get the selected row's data
+                    var selectedRow = button.closest("tr");
+                    var rowData = Array.from(selectedRow.children).map(function (cell) {
+                        return cell.textContent.trim();
+                    });
+
+                    // Populate the form fields with row data
+                    var form = document.getElementById("editForm");
+                    var formFields = form.querySelectorAll("input");
+
+                    formFields.forEach(function (field, index) {
+                        field.value = rowData[index];
+                    });
+
+                    // Show the modal
+                    $("#editModal").modal("show");
+                });
+            });
+        });
+    </script>
+  </script>
 {% endblock %}

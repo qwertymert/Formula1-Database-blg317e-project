@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, redirect, render_template, current_app, request, url_for
 from MySqlRepository import MySQLRepository
 
 viewResult = Blueprint('viewResult', __name__)
@@ -8,13 +8,13 @@ def results_page():
     repo = MySQLRepository()  
     columns = repo.get_columns('results')
     if request.method == 'POST':
-        # If the "Show All" button is clicked, fetch all drivers
+        # If the "Show All" button is clicked, fetch all results
         result_data = repo.read('results')
         table_names = repo.get_table_names()
         table_names = [name[0] for name in table_names]
         return render_template('results.html', result_data=result_data, columns=columns, table_names=table_names,bool=True)
     else:
-        # Otherwise, fetch a limited number of drivers (adjust the limit as needed)
+        # Otherwise, fetch a limited number of results (adjust the limit as needed)
         table_names = repo.get_table_names()
         table_names = [name[0] for name in table_names]
         return render_template('results.html', columns=columns, table_names=table_names,bool=False)
@@ -49,3 +49,30 @@ def add_result():
     table_names = repo.get_table_names()
     table_names = [name[0] for name in table_names]
     return render_template('results.html', result_data=result_data, columns=columns, table_names=table_names,bool=False)
+
+@viewResult.route("/results/update_result", methods=["POST"])
+def update_result():
+    repo = MySQLRepository()
+    columns = repo.get_columns('results')
+    form_data = request.form.to_dict()
+    print(form_data)
+    result_id = form_data.pop  ('resultId', None)
+    if result_id is not None:
+            condition = {"resultId": result_id}
+            repo.update('results', form_data, condition)
+    table_names = repo.get_table_names()
+    table_names = [name[0] for name in table_names]
+    return render_template('results.html', columns=columns, table_names=table_names,bool=False)
+
+    
+
+
+@viewResult.route("/results/delete_result/<int:result_id>", methods=["GET"])
+def delete_result(result_id):
+    repo = MySQLRepository()
+
+    # Adding the new data to the results table using repo method delete
+    repo.delete('results', result_id, 'resultId')
+    
+    # Redirect to the results page after deleting
+    return redirect(url_for('viewResult.results_page'))
