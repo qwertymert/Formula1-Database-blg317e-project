@@ -64,7 +64,7 @@
                   {% endfor %}
                   <td>
                     <button class="btn btn-primary edit-btn mb-3">Edit</button>
-                    <button class="btn btn-danger delete-btn" data-id="{{row[0]}}">Delete</button>
+                    <a href="{{ url_for('viewTeam.delete_team', team_id=row[0]) }}" class="btn btn-danger delete-btn">Delete</a>
 
                   </td>
               </tr>

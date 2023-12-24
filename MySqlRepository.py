@@ -64,8 +64,8 @@ class MySQLRepository:
         self.execute_update(query, tuple(data.values()) + tuple(condition.values()))
 
         
-    def delete(self, table_name, condition):
-        query = f"DELETE FROM {table_name} WHERE {condition}"
+    def delete(self, table_name, condition,id):
+        query = f"DELETE FROM {table_name} WHERE {id} = {condition}"
         self.execute_update(query)
 
     def get_columns(self, table_name):

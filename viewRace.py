@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, render_template, current_app, request,redirect,url_for, jsonify
 from MySqlRepository import MySQLRepository
 
 viewRace = Blueprint('viewRace', __name__)
@@ -9,13 +9,13 @@ def races_page():
     columns = repo.get_columns('races')
 
     if request.method == 'POST':
-        # If the "Show All" button is clicked, fetch all drivers
+        # If the "Show All" button is clicked, fetch all races
         races_data = repo.read('races')
         table_names = repo.get_table_names()
         table_names = [name[0] for name in table_names]
         return render_template('races.html', races_data=races_data, columns=columns, table_names=table_names,bool=True)
     else:
-        # Otherwise, fetch a limited number of drivers (adjust the limit as needed)
+        # Otherwise, fetch a limited number of races (adjust the limit as needed)
         table_names = repo.get_table_names()
         table_names = [name[0] for name in table_names]
         return render_template('races.html', columns=columns, table_names=table_names,bool=False)
@@ -52,24 +52,29 @@ def add_race():
     table_names = [name[0] for name in table_names]
     return render_template('races.html', races_data=races_data, columns=columns, table_names=table_names,bool=False)
 
-@viewRace.route("/races/update_race", methods=["POST"])
-@viewRace.route("/races/update_race", methods=["POST"])
+@viewRace.route("/race/update_race", methods=["POST"])
 def update_race():
     repo = MySQLRepository()
-
-    # Getting the race ID from the form data
-    race_id = request.form.get('race_id')
-
-    # Getting the updated data for all columns
-    columns = repo.get_columns('races')[1:]
-    data_to_update = {column: request.form.get(column) for column in columns}
-
-    # Updating the race data using repo method update
-    repo.update('races', race_id, data_to_update)
-
-    races_data = repo.read('races')
     columns = repo.get_columns('races')
+    form_data = request.form.to_dict()
+    print(form_data)
+    race_id = form_data.pop  ('raceId', None)
+    if race_id is not None:
+            condition = {"raceId": race_id}
+            repo.update('races', form_data, condition)
     table_names = repo.get_table_names()
     table_names = [name[0] for name in table_names]
-    return render_template('races.html', races_data=races_data, columns=columns, table_names=table_names, bool=True)
+    return render_template('races.html', columns=columns, table_names=table_names,bool=False)
+
     
+
+
+@viewRace.route("/races/delete_race/<int:race_id>", methods=["GET"])
+def delete_race(race_id):
+    repo = MySQLRepository()
+
+    # Adding the new data to the races table using repo method delete
+    repo.delete('races', race_id, 'raceId')
+    
+    # Redirect to the races page after deleting
+    return redirect(url_for('viewRace.races_page'))

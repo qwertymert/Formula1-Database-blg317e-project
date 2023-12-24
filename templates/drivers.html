@@ -106,7 +106,7 @@
             {% endfor %}
             <td>
               <button class="btn btn-primary edit-btn mb-3">Edit</button>
-              <button class="btn btn-danger delete-btn" data-id="{{row[0]}}">Delete</button>
+              <a href="{{ url_for('viewDriver.delete_driver', driver_id=row[0]) }}" class="btn btn-danger delete-btn">Delete</a>
             </td>
           </tr>
         {% endfor %}
@@ -114,6 +114,8 @@
     </table>
     {% endif %}
   </div>
+
+
   <!-- Edit Modal -->
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -168,4 +170,5 @@
       });
     });
   </script>
+
 {% endblock %}
